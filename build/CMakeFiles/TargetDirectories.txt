@@ -1,0 +1,4 @@
+/home/anshul_kakirde/Downloads/SPE/Project/scientific-calculator/build/CMakeFiles/scientific_calculator.dir
+/home/anshul_kakirde/Downloads/SPE/Project/scientific-calculator/build/CMakeFiles/test_calculator.dir
+/home/anshul_kakirde/Downloads/SPE/Project/scientific-calculator/build/CMakeFiles/edit_cache.dir
+/home/anshul_kakirde/Downloads/SPE/Project/scientific-calculator/build/CMakeFiles/rebuild_cache.dir
