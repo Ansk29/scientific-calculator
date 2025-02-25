@@ -1,0 +1,25 @@
+- name: Deploy Scientific Calculator
+  hosts: remote_servers
+  become: yes  # Run tasks as sudo
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Start Docker Service
+      service:
+        name: docker
+        state: started
+
+    - name: Pull Docker Image
+      command: docker pull ansk29/scientific-calculator
+
+    - name: Remove existing container (if any)
+      command: docker rm -f scientific-calculator
+      ignore_errors: yes  # Ignore error if container does not exist
+
+    - name: Start Container in Background
+      command: docker run -d --rm --name scientific-calculator -it ansk29/scientific-calculator
+
