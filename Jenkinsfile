@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = "ansk29/scientific-calculator"
+        DOCKER_TAG = "latest"
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -10,35 +15,57 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'cmake -S . -B build'
-                sh 'cmake --build build'
+                sh '''
+                    rm -rf build   # Clean previous build
+                    cmake -S . -B build
+                    cmake --build build
+                '''
             }
         }
 
         stage('Run Unit Tests') {
             steps {
-                sh 'cd build && ctest --output-on-failure'
+                sh '''
+                    cd build
+                    ctest --output-on-failure
+                '''
             }
         }
 
         stage('Containerize') {
             steps {
-                sh 'docker build -t ansk29/scientific-calculator .'
+                sh '''
+                    docker build -t $DOCKER_IMAGE:$DOCKER_TAG .
+                '''
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
                 withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
-                    sh 'docker push ansk29/scientific-calculator'
+                    sh '''
+                        docker push $DOCKER_IMAGE:$DOCKER_TAG
+                    '''
                 }
             }
         }
 
         stage('Deploy Locally with Docker') {
             steps {
-                sh 'docker run --rm -d --name sci-calc ansk29/scientific-calculator'
+                sh '''
+                    docker run -d --name scientific_calculator_container $DOCKER_IMAGE:$DOCKER_TAG
+                '''
             }
         }
     }
+
+    post {
+        success {
+            echo "Pipeline executed successfully!"
+        }
+        failure {
+            echo "Pipeline failed. Check logs for errors."
+        }
+    }
 }
+
