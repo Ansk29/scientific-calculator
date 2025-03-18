@@ -50,7 +50,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Locally with Docker') {
+        stage('Deploy Locally') {
             steps {
                 sh '''
                     docker run -d --name scientific_calculator_container $DOCKER_IMAGE:$DOCKER_TAG
