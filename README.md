@@ -1,5 +1,5 @@
 # Scientific Calculator
-content change kar ke dekhna he 
+content change
 changing contentts
 trying webhooks
 
