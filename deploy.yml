@@ -1,6 +1,6 @@
 - name: Deploy Scientific Calculator
-  hosts: remote_servers
-  become: yes  # Run tasks as sudo
+  hosts: local
+  become: yes  # Run as sudo
 
   tasks:
     - name: Install Docker
